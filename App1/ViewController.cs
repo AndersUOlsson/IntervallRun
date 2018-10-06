@@ -34,9 +34,9 @@ namespace IntervallRun
                 AutoresizingMask = UIViewAutoresizing.FlexibleDimensions
             };
 
-
-            //This resize map to iphone boundery
-            // View.AddSubview(map);
+            //This LoadView function fix the resizing of the map problem, when zoomed in on user.
+            LoadView();
+            View.AddSubview(map);
 
             //Take a look at UIKit.UIView.SizeThatFits
             locationManager.RequestWhenInUseAuthorization();
