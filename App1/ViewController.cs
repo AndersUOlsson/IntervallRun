@@ -21,7 +21,9 @@ namespace IntervallRun
         public double  Speed               { get; set; }
         private double MaxMinPerKm         { get; set; }
         private double MinMinPerKm         { get; set; }
-        public int     LengthOfTheRun      { get; private set; }
+        public double  LengthOfTheRun      { get; private set; }
+        private double StartLocation       { get; set; }
+        private bool   flagForRun          { get; set; }
 
         public ViewController (IntPtr handle) : base (handle)
         {
@@ -55,7 +57,9 @@ namespace IntervallRun
 
                     if(StartFlag)
                     {
-                        
+                        StartLocation = map.UserLocation.Location.Coordinate.Latitude;
+                        Console.WriteLine(StartLocation);
+                        MeterLeftToRun(StartLocation, StartFlag);
                         ControllTheRunnersSpeed(MaxValue, MinValue, Speed);
                     }
                 }
@@ -88,7 +92,7 @@ namespace IntervallRun
                 destinationSliderLabel.Text = LengthOfTheRun.ToString();
             };
 
-
+            flagForRun = true;
             StartFlag = false;
             startButton.TouchUpInside += (object sender, System.EventArgs e) =>
             {
@@ -115,9 +119,23 @@ namespace IntervallRun
             }
         }
 
-        private void MeterLeftToRun()
-        {
 
+        //Showed calculate how long you have run.
+        private void MeterLeftToRun(double startLocation, bool flagForRun)
+        {
+            double temp = 0;
+            double startPoint = 0;
+
+            if (flagForRun)
+            {
+                startPoint = temp = startLocation;
+                flagForRun = !flagForRun;
+            }
+
+            startLocation -= startPoint;
+            LengthOfTheRun -= startLocation;
+
+            Console.WriteLine("THIS IS THE LENGTHOFTHE RUN" + LengthOfTheRun);
         }
 
     }
