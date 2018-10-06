@@ -15,12 +15,13 @@ namespace IntervallRun
         
         //public static CLLocationManager Manager { get; set; }
 
-        public double MaxValue             { get; private set; }
-        public double MinValue             { get; private set; }
-        private bool StartFlag             { get; set; }
-        public double Speed                { get; set; }
+        public double  MaxValue            { get; private set; }
+        public double  MinValue            { get; private set; }
+        private bool   StartFlag           { get; set; }
+        public double  Speed               { get; set; }
         private double MaxMinPerKm         { get; set; }
         private double MinMinPerKm         { get; set; }
+        public int     LengthOfTheRun      { get; private set; }
 
         public ViewController (IntPtr handle) : base (handle)
         {
@@ -80,6 +81,14 @@ namespace IntervallRun
                 minSpeedLabel.Text = MinValue.ToString();
             };
 
+
+            destinationSlider.ValueChanged += (sender, args) =>
+            {
+                LengthOfTheRun = (int)destinationSlider.Value;
+                destinationSliderLabel.Text = LengthOfTheRun.ToString();
+            };
+
+
             StartFlag = false;
             startButton.TouchUpInside += (object sender, System.EventArgs e) =>
             {
@@ -105,5 +114,11 @@ namespace IntervallRun
                 Console.WriteLine("You are running in a perfect speed");
             }
         }
+
+        private void MeterLeftToRun()
+        {
+
+        }
+
     }
 }

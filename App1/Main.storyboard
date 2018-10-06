@@ -30,7 +30,7 @@
                                 <rect key="frame" x="0.0" y="31" width="320" height="307"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="8621" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maxValue="1000" id="8621" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" value="20">
                                 <rect key="frame" x="16" y="346" width="90" height="90"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
@@ -56,6 +56,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9344" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES">
+                                <rect key="frame" x="228" y="380" width="76" height="21"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                     </view>
                     <connections>
@@ -66,6 +73,7 @@
                         <outlet property="minSpeedStepper" destination="8849" id="name-outlet-8849"/>
                         <outlet property="maxSpeedLabel" destination="9095" id="name-outlet-9095"/>
                         <outlet property="minSpeedLabel" destination="9102" id="name-outlet-9102"/>
+                        <outlet property="destinationSliderLabel" destination="9344" id="name-outlet-9344"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

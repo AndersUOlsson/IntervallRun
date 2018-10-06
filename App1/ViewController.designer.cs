@@ -20,6 +20,10 @@ namespace IntervallRun
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel destinationSliderLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         MapKit.MKMapView map { get; set; }
 
         [Outlet]
@@ -47,6 +51,11 @@ namespace IntervallRun
             if (destinationSlider != null) {
                 destinationSlider.Dispose ();
                 destinationSlider = null;
+            }
+
+            if (destinationSliderLabel != null) {
+                destinationSliderLabel.Dispose ();
+                destinationSliderLabel = null;
             }
 
             if (map != null) {
