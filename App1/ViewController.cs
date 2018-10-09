@@ -27,8 +27,6 @@ namespace IntervallRun
      
         CLLocation pointA;
 
-
-
         public ViewController (IntPtr handle) : base (handle)
         {
         }
@@ -67,6 +65,7 @@ namespace IntervallRun
                     if(!StartFlag)
                     {
                         pointA = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, map.UserLocation.Location.Coordinate.Longitude);
+                        LeftOnRunlabel.Hidden = true;
                     }
                          
                     if (StartFlag)
@@ -118,13 +117,15 @@ namespace IntervallRun
 
         private void ControllTheRunnersSpeed(double maxValue, double minValue, double currentSpeed)
         {
+
+            LeftOnRunlabel.Hidden = false;
             Console.WriteLine("This is the speed" + currentSpeed);
 
-            if (maxValue > currentSpeed)
+            if (maxValue < currentSpeed)
             {
                 Console.WriteLine("You are runnig to fast, SLOW down. MAX Value" + maxValue);
             }
-            else if(minValue < currentSpeed)
+            else if(minValue > currentSpeed)
             {
                 Console.WriteLine("You are running to slow, SPEED up, MIN Value" + minValue);
             }
@@ -133,7 +134,6 @@ namespace IntervallRun
                 Console.WriteLine("You are running in a perfect speed");
             }
         }
-
 
         //Showed calculate how long you have run and how long you have left.
         private void MeterLeftToRun(CLLocation pointA)
@@ -146,9 +146,9 @@ namespace IntervallRun
             {
                 Console.WriteLine("END OF RUN");
             }
-
+            double length = Math.Round(distanceToB, 2);
             Console.WriteLine(LengthOfTheRun - distanceToB);
-            
+            LeftOnRunlabel.Text = "YOU HAVE RUN: " + length.ToString();
         }
     }
 }
