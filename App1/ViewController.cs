@@ -9,21 +9,25 @@ namespace IntervallRun
 {
     public partial class ViewController : UIViewController
     {
-        CLLocationManager locationManager =   new CLLocationManager();
-        SystemSound systemSound           =   new SystemSound(1003);
-        CLLocation location               =   new CLLocation();
-        
+        CLLocationManager locationManager = new CLLocationManager();
+        SystemSound systemSound = new SystemSound(1003);
+        CLLocation location = new CLLocation();
+
         //public static CLLocationManager Manager { get; set; }
 
-        public double  MaxValue            { get; private set; }
-        public double  MinValue            { get; private set; }
-        private bool   StartFlag           { get; set; }
-        public double  Speed               { get; set; }
-        private double MaxMinPerKm         { get; set; }
-        private double MinMinPerKm         { get; set; }
-        public double  LengthOfTheRun      { get; private set; }
-        private double StartLocation       { get; set; }
-        private bool   flagForRun          { get; set; }
+        public double MaxValue { get; private set; }
+        public double MinValue { get; private set; }
+        private bool StartFlag { get; set; }
+        public double Speed { get; set; }
+        private double MaxMinPerKm { get; set; }
+        private double MinMinPerKm { get; set; }
+        public double LengthOfTheRun { get; private set; }
+        private double StartLocation { get; set; }
+        private bool flagForRun { get; set; }
+     
+        CLLocation pointA;
+
+
 
         public ViewController (IntPtr handle) : base (handle)
         {
@@ -45,21 +49,32 @@ namespace IntervallRun
             locationManager.RequestWhenInUseAuthorization();
             locationManager.RequestAlwaysAuthorization();
             map.ShowsUserLocation = true;
+     
+
+
 
             map.DidUpdateUserLocation += (s, ergs) =>
             {
                 if (map.UserLocation != null)
                 {
+                          
                     CLLocationCoordinate2D coords = map.UserLocation.Coordinate;
                     MKCoordinateSpan span = new MKCoordinateSpan(0.01, 0.01);
                     map.Region = new MKCoordinateRegion(coords, span);
                     Speed = map.UserLocation.Location.Speed;
 
-                    if(StartFlag)
+
+                    if(!StartFlag)
+                    {
+                        pointA = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, map.UserLocation.Location.Coordinate.Longitude);
+                    }
+                         
+                    if (StartFlag)
                     {
                         StartLocation = map.UserLocation.Location.Coordinate.Latitude;
+                       
                         Console.WriteLine(StartLocation);
-                        MeterLeftToRun(StartLocation, StartFlag);
+                        MeterLeftToRun(pointA);
                         ControllTheRunnersSpeed(MaxValue, MinValue, Speed);
                     }
                 }
@@ -120,23 +135,20 @@ namespace IntervallRun
         }
 
 
-        //Showed calculate how long you have run.
-        private void MeterLeftToRun(double startLocation, bool flagForRun)
+        //Showed calculate how long you have run and how long you have left.
+        private void MeterLeftToRun(CLLocation pointA)
         {
-            double temp = 0;
-            double startPoint = 0;
+            CLLocation pointB = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, map.UserLocation.Location.Coordinate.Longitude);
+            var distanceToB = pointB.DistanceFrom(pointA);
+            Console.WriteLine("THIS IS THE Destination between A and B" + distanceToB.ToString());
 
-            if (flagForRun)
+            if(LengthOfTheRun <= distanceToB)
             {
-                startPoint = temp = startLocation;
-                flagForRun = !flagForRun;
+                Console.WriteLine("END OF RUN");
             }
 
-            startLocation -= startPoint;
-            LengthOfTheRun -= startLocation;
-
-            Console.WriteLine("THIS IS THE LENGTHOFTHE RUN" + LengthOfTheRun);
+            Console.WriteLine(LengthOfTheRun - distanceToB);
+            
         }
-
     }
 }
