@@ -12,8 +12,7 @@ namespace IntervallRun
         CLLocationManager locationManager = new CLLocationManager();
         SystemSound systemSound = new SystemSound(1003);
         CLLocation location = new CLLocation();
-
-        //public static CLLocationManager Manager { get; set; }
+        CLLocation pointA;
 
         public double MaxValue { get; private set; }
         public double MinValue { get; private set; }
@@ -23,9 +22,13 @@ namespace IntervallRun
         private double MinMinPerKm { get; set; }
         public double LengthOfTheRun { get; private set; }
         private double StartLocation { get; set; }
-        private bool flagForRun { get; set; }
-     
-        CLLocation pointA;
+        private bool FlagForRun { get; set; }
+        SystemSound soundTooSlow = new SystemSound(1100);
+        SystemSound soundTooFast = new SystemSound(1003);
+        public static readonly SystemSound Vibrate;
+        private static int TIMES_FOR_FAST = 5;
+        private static int TIMES_FOR_SLOW = 20;
+        AudioManager audioManager;
 
         public ViewController (IntPtr handle) : base (handle)
         {
@@ -38,6 +41,7 @@ namespace IntervallRun
             {
                 AutoresizingMask = UIViewAutoresizing.FlexibleDimensions
             };
+            audioManager = new AudioManager();
 
             //This LoadView function fix the resizing of the map problem, when zoomed in on user.
             LoadView();
@@ -48,23 +52,20 @@ namespace IntervallRun
             locationManager.RequestAlwaysAuthorization();
             map.ShowsUserLocation = true;
      
-
-
-
             map.DidUpdateUserLocation += (s, ergs) =>
             {
                 if (map.UserLocation != null)
                 {
-                          
                     CLLocationCoordinate2D coords = map.UserLocation.Coordinate;
                     MKCoordinateSpan span = new MKCoordinateSpan(0.01, 0.01);
                     map.Region = new MKCoordinateRegion(coords, span);
                     Speed = map.UserLocation.Location.Speed;
-
-
-                    if(!StartFlag)
+                  
+                    if (!StartFlag)
                     {
-                        pointA = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, map.UserLocation.Location.Coordinate.Longitude);
+                        pointA = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, 
+                                                map.UserLocation.Location.Coordinate.Longitude);
+
                         LeftOnRunlabel.Hidden = true;
                     }
                          
@@ -106,12 +107,11 @@ namespace IntervallRun
                 destinationSliderLabel.Text = LengthOfTheRun.ToString();
             };
 
-            flagForRun = true;
+            FlagForRun = true;
             StartFlag = false;
             startButton.TouchUpInside += (object sender, System.EventArgs e) =>
             {
                 StartFlag = !StartFlag;
-                Console.WriteLine("You have pressed the button");
             };
         }
 
@@ -124,10 +124,28 @@ namespace IntervallRun
             if (maxValue < currentSpeed)
             {
                 Console.WriteLine("You are runnig to fast, SLOW down. MAX Value" + maxValue);
+                soundTooFast.PlayAlertSound();
+
+                int i = 0;
+                while(i < TIMES_FOR_FAST)
+                {
+                    SystemSound.Vibrate.PlaySystemSound();
+                    i++;
+                }
+                
+
             }
             else if(minValue > currentSpeed)
             {
                 Console.WriteLine("You are running to slow, SPEED up, MIN Value" + minValue);
+                soundTooSlow.PlayAlertSound();
+
+                int i = 0;
+                while (i < TIMES_FOR_SLOW)
+                {
+                    SystemSound.Vibrate.PlaySystemSound();
+                    i++;
+                }
             }
             else
             {
@@ -138,13 +156,16 @@ namespace IntervallRun
         //Showed calculate how long you have run and how long you have left.
         private void MeterLeftToRun(CLLocation pointA)
         {
-            CLLocation pointB = new CLLocation(map.UserLocation.Location.Coordinate.Latitude, map.UserLocation.Location.Coordinate.Longitude);
+            CLLocation pointB = new CLLocation(map.UserLocation.Location.Coordinate.Latitude,
+                                               map.UserLocation.Location.Coordinate.Longitude);
+
             var distanceToB = pointB.DistanceFrom(pointA);
             Console.WriteLine("THIS IS THE Destination between A and B" + distanceToB.ToString());
 
-            if(LengthOfTheRun <= distanceToB)
+            if (LengthOfTheRun <= distanceToB)
             {
                 Console.WriteLine("END OF RUN");
+                audioManager.PlaySound("Finished.mp3");
             }
             double length = Math.Round(distanceToB, 2);
             Console.WriteLine(LengthOfTheRun - distanceToB);
