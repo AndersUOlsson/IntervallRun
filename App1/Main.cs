@@ -1,4 +1,12 @@
-﻿using UIKit;
+﻿using System.Net.Sockets;
+using UIKit;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net;
+using System.Threading;
 
 namespace IntervallRun
 {
@@ -9,7 +17,11 @@ namespace IntervallRun
         {
             // if you want to use a different Application Delegate class from "AppDelegate"
             // you can specify it here.
+      
             UIApplication.Main(args, null, "AppDelegate");
+            
         }
+
+        
     }
 }
