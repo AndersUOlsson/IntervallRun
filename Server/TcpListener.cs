@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SQLite;
 using System.Net;
 using System.Net.Sockets;
 
@@ -17,12 +18,43 @@ namespace Server
 
         public static void Main()
         {
-            TcpConnection();
-            User aUser = new User("Anders", 30, "abc@gmail.com");
-            UserHandler.AddUser(aUser);
+            Database database = new Database();
 
-            Console.WriteLine("\nHit enter to continue...");
-            Console.Read();
+            //Insert to database
+            /* string query = "INSERT INTO User ('Id','Name','Age','Email') VALUES (@Id, @Name, @Age, @Email)";
+             SQLiteCommand myCommand = new SQLiteCommand(query, database.myConnection);
+             database.OpenConnection();
+             myCommand.Parameters.AddWithValue("@Id", "1");
+             myCommand.Parameters.AddWithValue("@Name", "Anders");
+             myCommand.Parameters.AddWithValue("@Age", "30");
+             myCommand.Parameters.AddWithValue("@Email", "andy.wallhack@gmail.com");
+             myCommand.Parameters.AddWithValue("@Id", "2");
+             myCommand.Parameters.AddWithValue("@Name", "Therezia");
+             myCommand.Parameters.AddWithValue("@Age", "33");
+             myCommand.Parameters.AddWithValue("@Email", "therezia_Ferm@hotmail.com");
+             var result = myCommand.ExecuteNonQuery();
+             database.CloseConnection();
+             TcpConnection();
+
+             Console.WriteLine("Rows /added : {0}", result);*/
+
+
+            //Select from database
+
+            string query = "SELECT * FROM User"; 
+            SQLiteCommand myCommand = new SQLiteCommand(query, database.myConnection);
+            database.OpenConnection();
+            SQLiteDataReader result = myCommand.ExecuteReader();
+            if(result.HasRows)
+            {
+                while(result.Read())
+                {
+                    Console.WriteLine("Name: {0} - Age {1} - Email {2}", result["Name"], result["Age"], result["Email"]);
+                }
+            }
+            database.CloseConnection();
+            TcpConnection();
+
         }
 
         private static void TcpConnection()
