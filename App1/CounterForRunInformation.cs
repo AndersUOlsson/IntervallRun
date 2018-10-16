@@ -10,8 +10,8 @@ namespace IntervallRun
     {
         AudioManager audioManager;
         UserClient UserClient = new UserClient();
-        private static int TIMES_FOR_FAST = 5;
-        private static int TIMES_FOR_SLOW = 20;
+        private static readonly int TIMES_FOR_FAST = 5;
+        private static readonly int TIMES_FOR_SLOW = 20;
 
         #region Public Methods
         public CounterForRunInformation()
