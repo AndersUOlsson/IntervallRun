@@ -66,8 +66,14 @@ namespace IntervallRun
 
 
             //The connection an the information to the server.
-            string text = "You have left" + distanceToB;
-            UserClient.Connect("10.0.1.5", text);
+
+
+
+
+            //string text = "You have left" + distanceToB;
+            //UserClient.Connect("10.0.1.5", text);
+            string testRegistrationOFAUser = "1 Anders 30 abc@gmail.com";
+            UserClient.Connect("10.0.1.5", testRegistrationOFAUser);
 
 
 
