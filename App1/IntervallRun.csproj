@@ -119,9 +119,7 @@
       <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
@@ -135,6 +133,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
+    <Compile Include="LoginViewController.cs" />
+    <Compile Include="LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrationViewController.cs" />
+    <Compile Include="RegistrationViewController.designer.cs">
+      <DependentUpon>RegistrationViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserClient.cs" />
     <Compile Include="CounterForRunInformation.cs" />
     <Compile Include="Main.cs" />
@@ -150,6 +156,9 @@
   <ItemGroup>
     <BundleResource Include="Sounds\moveFaster.mp3" />
     <BundleResource Include="Sounds\moveSlower.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\RunnerStartScreen.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
